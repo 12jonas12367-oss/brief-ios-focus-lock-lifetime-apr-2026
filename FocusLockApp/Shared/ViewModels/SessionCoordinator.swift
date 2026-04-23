@@ -26,11 +26,6 @@ final class SessionCoordinator {
         }
     }
 
-    deinit {
-        countdownTask?.cancel()
-        commerceTask?.cancel()
-    }
-
     var isUnlocked: Bool {
         unlockService.isUnlocked
     }
@@ -54,7 +49,8 @@ final class SessionCoordinator {
 
     func startSession() {
         countdownTask?.cancel()
-        countdownTask = Task {
+        countdownTask = Task { @MainActor [weak self] in
+            guard let self else { return }
             let authorized = await blockingService.requestAuthorization()
             guard authorized else {
                 statusMessage = "Screen Time authorization needed"
@@ -76,7 +72,8 @@ final class SessionCoordinator {
 
     func stopSession() {
         countdownTask?.cancel()
-        countdownTask = Task {
+        countdownTask = Task { @MainActor [weak self] in
+            guard let self else { return }
             await blockingService.stopBlocking()
             isSessionActive = false
             statusMessage = "Session ended"
@@ -85,7 +82,8 @@ final class SessionCoordinator {
 
     func purchaseLifetimeUnlock() {
         commerceTask?.cancel()
-        commerceTask = Task {
+        commerceTask = Task { @MainActor [weak self] in
+            guard let self else { return }
             do {
                 try await unlockService.purchaseLifetimeUnlock()
                 isShowingPaywall = false
@@ -98,7 +96,8 @@ final class SessionCoordinator {
 
     func restorePurchases() {
         commerceTask?.cancel()
-        commerceTask = Task {
+        commerceTask = Task { @MainActor [weak self] in
+            guard let self else { return }
             await unlockService.restorePurchases()
             statusMessage = unlockService.isUnlocked ? "Purchases restored" : "No purchases found"
         }
