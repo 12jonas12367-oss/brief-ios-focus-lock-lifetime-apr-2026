@@ -21,6 +21,6 @@ jobs:
           xcodebuild \
             -project FocusLock.xcodeproj \
             -scheme FocusLock \
-            -destination 'platform=iOS Simulator,name=iPhone 16,OS=latest' \
+            -destination 'generic/platform=iOS Simulator' \
             -derivedDataPath DerivedData \
             build
