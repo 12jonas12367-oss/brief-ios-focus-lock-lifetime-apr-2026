@@ -1,5 +1,6 @@
 import Foundation
 
+@MainActor
 protocol LifetimeUnlockService {
     var isUnlocked: Bool { get }
     mutating func purchaseLifetimeUnlock() async throws

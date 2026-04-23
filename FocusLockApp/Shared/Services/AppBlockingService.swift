@@ -1,5 +1,6 @@
 import Foundation
 
+@MainActor
 protocol AppBlockingService {
     var isEnforcementAvailable: Bool { get }
     func requestAuthorization() async -> Bool
