@@ -49,7 +49,16 @@ xcodebuild \
   -configuration Debug \
   -destination "platform=iOS Simulator,name=iPhone 16,OS=latest" \
   -derivedDataPath DerivedData \
-  build test 2>&1 | tee "$CI_LOG"
+  build-for-testing 2>&1 | tee "$CI_LOG"
+
+xcodebuild \
+  -project FocusLock.xcodeproj \
+  -scheme FocusLock \
+  -configuration Debug \
+  -destination "platform=iOS Simulator,name=iPhone 16,OS=latest" \
+  -derivedDataPath DerivedData \
+  test-without-building \
+  -only-testing:FocusLockTests 2>&1 | tee -a "$CI_LOG"
 set +o pipefail
 
 {

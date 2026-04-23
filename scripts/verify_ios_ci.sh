@@ -22,4 +22,13 @@ xcodebuild \
   -configuration Debug \
   -destination "platform=iOS Simulator,name=iPhone 16,OS=latest" \
   -derivedDataPath DerivedData \
-  build test
+  build-for-testing
+
+xcodebuild \
+  -project FocusLock.xcodeproj \
+  -scheme FocusLock \
+  -configuration Debug \
+  -destination "platform=iOS Simulator,name=iPhone 16,OS=latest" \
+  -derivedDataPath DerivedData \
+  test-without-building \
+  -only-testing:FocusLockTests
