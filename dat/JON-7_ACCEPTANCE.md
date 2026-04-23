@@ -33,7 +33,7 @@ Blocker action: Confirm final result of latest `iOS CI` run and verify `FocusLoc
 Evidence:
 - CI workflow updated to run `build test`.
 - `Build and Test` is green on latest commit:
-  - https://github.com/12jonas12367-oss/brief-ios-focus-lock-lifetime-apr-2026/actions/runs/24849546280
+  - https://github.com/12jonas12367-oss/brief-ios-focus-lock-lifetime-apr-2026/actions/runs/24849687894
 - Full CI remediation/evidence trail is tracked in `dat/JON-10_EVIDENCE_LOG.md`.
 - Added evidence capture script `scripts/capture_validation_evidence.sh` for CI logs + summary output.
 - Added signed-device validation template `dat/JON-10_VALIDATION_EVIDENCE_TEMPLATE.md`.

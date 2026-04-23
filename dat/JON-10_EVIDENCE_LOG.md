@@ -3,7 +3,7 @@
 Date: 2026-04-23 (UTC)
 Issue: [JON-10](/JON/issues/JON-10)
 Related issue: [JON-7](/JON/issues/JON-7)
-Latest commit under validation: `0f24283`
+Latest commit under validation: `4fff71a`
 
 ## CI Evidence
 
@@ -19,6 +19,11 @@ Latest commit under validation: `0f24283`
 
 - Green CI run after latest iOS CI workflow scoping update:
   - Run URL: https://github.com/12jonas12367-oss/brief-ios-focus-lock-lifetime-apr-2026/actions/runs/24849546280
+  - Workflow: `Build and Test`
+  - Result: `success`
+
+- Green CI run on latest docs/evidence commit:
+  - Run URL: https://github.com/12jonas12367-oss/brief-ios-focus-lock-lifetime-apr-2026/actions/runs/24849687894
   - Workflow: `Build and Test`
   - Result: `success`
 
@@ -40,10 +45,12 @@ Latest commit under validation: `0f24283`
   6. https://github.com/12jonas12367-oss/brief-ios-focus-lock-lifetime-apr-2026/actions/runs/24849303588
      - Result: `cancelled`
   7. https://github.com/12jonas12367-oss/brief-ios-focus-lock-lifetime-apr-2026/actions/runs/24849401104
-     - Result: `in_progress` after repeated cancel requests.
+     - Result: `cancelled`.
   8. https://github.com/12jonas12367-oss/brief-ios-focus-lock-lifetime-apr-2026/actions/runs/24849546256
-     - Result: `pending` (queued behind run `24849401104` due workflow concurrency group).
-     - Workflow update now on this run: `build-for-testing` + `test-without-building -only-testing:FocusLockTests`.
+     - Result: `cancelled`
+  9. https://github.com/12jonas12367-oss/brief-ios-focus-lock-lifetime-apr-2026/actions/runs/24849687864
+     - Result: `in_progress` with stale timestamp during test step (`updatedAt: 2026-04-23T17:40:10Z` at time of recording).
+     - Workflow on this run: `build-for-testing` + `test-without-building -only-testing:FocusLockTests`.
 
 ## Signed-Device Evidence
 
@@ -59,6 +66,6 @@ Latest commit under validation: `0f24283`
 
 Unblock owner: Repo maintainer / QA owner with signed Apple environment.
 Unblock action:
-1. Force-terminate/resolve `iOS CI` run `24849401104`, then allow run `24849546256` to execute and reach terminal status.
+1. Force-terminate/resolve stuck `iOS CI` run `24849687864`, then rerun `iOS CI` on latest commit and capture terminal status.
 2. Execute signed-device checklist and attach media artifacts.
 3. Post completed evidence bundle back to JON-7 and JON-10.
