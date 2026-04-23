@@ -1,0 +1,26 @@
+name: Build and Test
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  ios-build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install XcodeGen
+        run: brew install xcodegen
+
+      - name: Generate Xcode project
+        run: xcodegen generate
+
+      - name: Build app for iOS Simulator
+        run: |
+          xcodebuild \
+            -project FocusLock.xcodeproj \
+            -scheme FocusLock \
+            -destination 'platform=iOS Simulator,name=iPhone 16,OS=latest' \
+            -derivedDataPath DerivedData \
+            build
