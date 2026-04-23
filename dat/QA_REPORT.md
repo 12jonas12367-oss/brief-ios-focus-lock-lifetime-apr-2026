@@ -15,7 +15,7 @@ Issue: [JON-7](/JON/issues/JON-7)
 
 ## Verification Gaps
 
-- CI validation was not re-run in this environment after the integration patch and workflow update.
+- CI validation was re-run in GitHub Actions; see `dat/JON-10_EVIDENCE_LOG.md`.
 - Runtime validation on a signed build/device is still required for:
   - Family Controls authorization flow
   - Shield application/clearing behavior
@@ -27,6 +27,11 @@ Issue: [JON-7](/JON/issues/JON-7)
 - Result: failed immediately with `Missing required tools: xcodegen xcodebuild`.
 - Evidence artifact: `dat/evidence/20260423T171532Z/summary.md`.
 - Interpretation: evidence capture script is wired correctly, but this runtime cannot execute iOS CI prerequisites.
+
+## CI Evidence Snapshot
+
+- Green run on latest commit (`Build and Test`): https://github.com/12jonas12367-oss/brief-ios-focus-lock-lifetime-apr-2026/actions/runs/24848945440
+- `iOS CI` remediation/failure trail and latest run state are tracked in `dat/JON-10_EVIDENCE_LOG.md`.
 
 ## Developer Handoff Status
 
