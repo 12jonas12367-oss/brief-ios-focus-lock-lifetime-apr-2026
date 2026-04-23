@@ -1,0 +1,26 @@
+name: FocusLock
+options:
+  bundleIdPrefix: WhitoutCookies
+settings:
+  base:
+    SWIFT_VERSION: 6.0
+    IPHONEOS_DEPLOYMENT_TARGET: 18.6
+targets:
+  FocusLock:
+    type: application
+    platform: iOS
+    deploymentTarget: "18.6"
+    sources:
+      - FocusLockApp
+    info:
+      path: FocusLockApp/Resources/Info.plist
+      properties:
+        CFBundleDisplayName: Focus Lock
+        UILaunchScreen: {}
+        UIApplicationSceneManifest:
+          UIApplicationSupportsMultipleScenes: false
+        UISupportedInterfaceOrientations:
+          - UIInterfaceOrientationPortrait
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: WhitoutCookies.FocusLock
