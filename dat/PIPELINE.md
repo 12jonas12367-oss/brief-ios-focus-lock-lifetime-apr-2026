@@ -2,9 +2,9 @@
 
 - [ ] RESEARCHING
 - [ ] BRIEF_READY
-- [x] IN_DEVELOPMENT
+- [ ] IN_DEVELOPMENT
 - [ ] DEV_SELF_REVIEW
-- [ ] IN_QA
+- [x] IN_QA
 - [ ] QA_APPROVED
 - [ ] SUBMITTED_TO_APP_STORE
 - [ ] LIVE
