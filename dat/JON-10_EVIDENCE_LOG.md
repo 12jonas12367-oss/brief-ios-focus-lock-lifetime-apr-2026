@@ -3,12 +3,17 @@
 Date: 2026-04-23 (UTC)
 Issue: [JON-10](/JON/issues/JON-10)
 Related issue: [JON-7](/JON/issues/JON-7)
-Latest commit under validation: `e0aaf26`
+Latest commit under validation: `e735b5b`
 
 ## CI Evidence
 
 - Green CI run (`Build and Test`) on latest commit:
   - Run URL: https://github.com/12jonas12367-oss/brief-ios-focus-lock-lifetime-apr-2026/actions/runs/24848945440
+  - Workflow: `Build and Test`
+  - Result: `success`
+
+- Green CI run after destination compatibility fix:
+  - Run URL: https://github.com/12jonas12367-oss/brief-ios-focus-lock-lifetime-apr-2026/actions/runs/24849303606
   - Workflow: `Build and Test`
   - Result: `success`
 
@@ -23,7 +28,12 @@ Latest commit under validation: `e0aaf26`
      - Result: `failure`
      - Defect fixed: nonisolated references to main-actor properties in `SessionCoordinator`.
   4. https://github.com/12jonas12367-oss/brief-ios-focus-lock-lifetime-apr-2026/actions/runs/24848945396
-     - Result: `in_progress` at time of this update.
+     - Result: `cancelled` (manual cancellation after prolonged in-progress state).
+  5. https://github.com/12jonas12367-oss/brief-ios-focus-lock-lifetime-apr-2026/actions/runs/24849214311
+     - Result: `failure`
+     - Defect fixed: legacy `Build and Test` workflow device destination (`iPhone 16`) not available on runner image.
+  6. https://github.com/12jonas12367-oss/brief-ios-focus-lock-lifetime-apr-2026/actions/runs/24849303588
+     - Result: `pending` (blocked behind prior in-progress run at time of this update).
 
 ## Signed-Device Evidence
 
@@ -34,7 +44,7 @@ Latest commit under validation: `e0aaf26`
 
 ## Current Unblock State
 
-- CI: partially unblocked (`Build and Test` green; `iOS CI` still running/pending final state).
+- CI: partially unblocked (`Build and Test` green on latest commit; `iOS CI` pending final terminal result).
 - Signed-device validation: blocked.
 
 Unblock owner: Repo maintainer / QA owner with signed Apple environment.
