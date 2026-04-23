@@ -30,7 +30,7 @@ Issue: [JON-7](/JON/issues/JON-7)
 
 ## CI Evidence Snapshot
 
-- Green run on latest commit (`Build and Test`): https://github.com/12jonas12367-oss/brief-ios-focus-lock-lifetime-apr-2026/actions/runs/24849303606
+- Green run on latest commit (`Build and Test`): https://github.com/12jonas12367-oss/brief-ios-focus-lock-lifetime-apr-2026/actions/runs/24849546280
 - `iOS CI` remediation/failure trail and latest run state are tracked in `dat/JON-10_EVIDENCE_LOG.md`.
 
 ## Developer Handoff Status

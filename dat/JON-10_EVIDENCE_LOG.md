@@ -3,7 +3,7 @@
 Date: 2026-04-23 (UTC)
 Issue: [JON-10](/JON/issues/JON-10)
 Related issue: [JON-7](/JON/issues/JON-7)
-Latest commit under validation: `e735b5b`
+Latest commit under validation: `0f24283`
 
 ## CI Evidence
 
@@ -14,6 +14,11 @@ Latest commit under validation: `e735b5b`
 
 - Green CI run after destination compatibility fix:
   - Run URL: https://github.com/12jonas12367-oss/brief-ios-focus-lock-lifetime-apr-2026/actions/runs/24849303606
+  - Workflow: `Build and Test`
+  - Result: `success`
+
+- Green CI run after latest iOS CI workflow scoping update:
+  - Run URL: https://github.com/12jonas12367-oss/brief-ios-focus-lock-lifetime-apr-2026/actions/runs/24849546280
   - Workflow: `Build and Test`
   - Result: `success`
 
@@ -33,7 +38,12 @@ Latest commit under validation: `e735b5b`
      - Result: `failure`
      - Defect fixed: legacy `Build and Test` workflow device destination (`iPhone 16`) not available on runner image.
   6. https://github.com/12jonas12367-oss/brief-ios-focus-lock-lifetime-apr-2026/actions/runs/24849303588
-     - Result: `pending` (blocked behind prior in-progress run at time of this update).
+     - Result: `cancelled`
+  7. https://github.com/12jonas12367-oss/brief-ios-focus-lock-lifetime-apr-2026/actions/runs/24849401104
+     - Result: `in_progress` after repeated cancel requests.
+  8. https://github.com/12jonas12367-oss/brief-ios-focus-lock-lifetime-apr-2026/actions/runs/24849546256
+     - Result: `pending` (queued behind run `24849401104` due workflow concurrency group).
+     - Workflow update now on this run: `build-for-testing` + `test-without-building -only-testing:FocusLockTests`.
 
 ## Signed-Device Evidence
 
@@ -44,11 +54,11 @@ Latest commit under validation: `e735b5b`
 
 ## Current Unblock State
 
-- CI: partially unblocked (`Build and Test` green on latest commit; `iOS CI` pending final terminal result).
+- CI: partially unblocked (`Build and Test` green on latest commit; `iOS CI` still blocked by a stuck in-progress run).
 - Signed-device validation: blocked.
 
 Unblock owner: Repo maintainer / QA owner with signed Apple environment.
 Unblock action:
-1. Confirm final state of `iOS CI` run `24848945396` (or rerun `iOS CI` if it times out).
+1. Force-terminate/resolve `iOS CI` run `24849401104`, then allow run `24849546256` to execute and reach terminal status.
 2. Execute signed-device checklist and attach media artifacts.
 3. Post completed evidence bundle back to JON-7 and JON-10.
