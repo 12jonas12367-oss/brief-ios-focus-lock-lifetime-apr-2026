@@ -12,7 +12,7 @@ struct ActiveSessionView: View {
                 .font(.system(size: 48, weight: .heavy, design: .rounded))
                 .monospacedDigit()
 
-            Text("Blocked apps: \(coordinator.currentConfig.blockedApps.joined(separator: ", "))")
+            Text(blockingSummary)
                 .multilineTextAlignment(.center)
                 .foregroundStyle(.secondary)
 
@@ -24,6 +24,19 @@ struct ActiveSessionView: View {
         .padding(24)
         .navigationTitle("Active Session")
         .navigationBarBackButtonHidden(true)
+    }
+
+    private var blockingSummary: String {
+        let selection = coordinator.currentConfig.activitySelection
+        let appCount = selection.applicationTokens.count
+        let categoryCount = selection.categoryTokens.count
+        let webCount = selection.webDomainTokens.count
+
+        if appCount == 0, categoryCount == 0, webCount == 0 {
+            return "No Screen Time targets selected"
+        }
+
+        return "Blocking \(appCount) apps, \(categoryCount) categories, and \(webCount) websites"
     }
 
     private var timeString: String {

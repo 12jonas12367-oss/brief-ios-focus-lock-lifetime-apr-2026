@@ -3,8 +3,8 @@ import SwiftUI
 @main
 struct FocusLockApp: App {
     @State private var coordinator = SessionCoordinator(
-        blockingService: MockAppBlockingService(),
-        unlockService: MockLifetimeUnlockService()
+        blockingService: ScreenTimeAppBlockingService(),
+        unlockService: StoreKitLifetimeUnlockService()
     )
 
     var body: some Scene {

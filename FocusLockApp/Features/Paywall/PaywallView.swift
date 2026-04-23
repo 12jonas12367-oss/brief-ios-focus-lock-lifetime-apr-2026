@@ -15,14 +15,14 @@ struct PaywallView: View {
                 VStack(alignment: .leading, spacing: 8) {
                     Text("Price")
                         .font(.headline)
-                    Text("$7.99 one-time")
+                    Text("\(coordinator.lifetimePriceDisplay) one-time")
                         .font(.title2.bold())
-                    Text("TODO: Replace with StoreKit localized product price.")
+                    Text("Localized via App Store product metadata")
                         .font(.footnote)
                         .foregroundStyle(.secondary)
                 }
 
-                Button("Unlock — $7.99") {
+                Button("Unlock — \(coordinator.lifetimePriceDisplay)") {
                     coordinator.purchaseLifetimeUnlock()
                 }
                 .buttonStyle(.borderedProminent)

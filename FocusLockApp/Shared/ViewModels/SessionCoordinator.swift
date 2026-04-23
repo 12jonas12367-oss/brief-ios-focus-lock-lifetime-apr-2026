@@ -14,14 +14,29 @@ final class SessionCoordinator {
     private let blockingService: AppBlockingService
     private var unlockService: LifetimeUnlockService
     private var countdownTask: Task<Void, Never>?
+    private var commerceTask: Task<Void, Never>?
 
     init(blockingService: AppBlockingService, unlockService: LifetimeUnlockService) {
         self.blockingService = blockingService
         self.unlockService = unlockService
+
+        commerceTask = Task { @MainActor [weak self] in
+            guard let self else { return }
+            await self.unlockService.prepare()
+        }
+    }
+
+    deinit {
+        countdownTask?.cancel()
+        commerceTask?.cancel()
     }
 
     var isUnlocked: Bool {
         unlockService.isUnlocked
+    }
+
+    var lifetimePriceDisplay: String {
+        unlockService.lifetimePriceDisplay ?? "$7.99"
     }
 
     func openSetup() {
@@ -69,7 +84,8 @@ final class SessionCoordinator {
     }
 
     func purchaseLifetimeUnlock() {
-        countdownTask = Task {
+        commerceTask?.cancel()
+        commerceTask = Task {
             do {
                 try await unlockService.purchaseLifetimeUnlock()
                 isShowingPaywall = false
@@ -81,7 +97,8 @@ final class SessionCoordinator {
     }
 
     func restorePurchases() {
-        countdownTask = Task {
+        commerceTask?.cancel()
+        commerceTask = Task {
             await unlockService.restorePurchases()
             statusMessage = unlockService.isUnlocked ? "Purchases restored" : "No purchases found"
         }
@@ -92,6 +109,7 @@ final class SessionCoordinator {
             try? await Task.sleep(for: .seconds(1))
             secondsRemaining -= 1
         }
+
         if secondsRemaining <= 0 {
             await blockingService.stopBlocking()
             isSessionActive = false

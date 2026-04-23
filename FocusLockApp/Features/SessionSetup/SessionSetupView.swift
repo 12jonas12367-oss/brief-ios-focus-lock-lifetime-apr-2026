@@ -1,11 +1,12 @@
+import FamilyControls
 import SwiftUI
 
 struct SessionSetupView: View {
     @Bindable var coordinator: SessionCoordinator
 
     @State private var durationMinutes = 25
-    @State private var blockedApps = "Instagram, YouTube"
-    @State private var blockedCategories = "Social, Games"
+    @State private var activitySelection = FamilyActivitySelection()
+    @State private var isShowingActivityPicker = false
 
     var body: some View {
         Form {
@@ -13,20 +14,20 @@ struct SessionSetupView: View {
                 Stepper("\(durationMinutes) minutes", value: $durationMinutes, in: 5...120, step: 5)
             }
 
-            Section("Blocked Apps") {
-                TextField("Comma-separated", text: $blockedApps)
-            }
+            Section("Blocked Items") {
+                Text(summaryText)
+                    .foregroundStyle(.secondary)
 
-            Section("Blocked Categories") {
-                TextField("Comma-separated", text: $blockedCategories)
+                Button("Choose Apps & Categories") {
+                    isShowingActivityPicker = true
+                }
             }
 
             Section {
                 Button("Start Session") {
                     let config = SessionConfig(
                         durationMinutes: durationMinutes,
-                        blockedApps: splitCSV(blockedApps),
-                        blockedCategories: splitCSV(blockedCategories)
+                        activitySelection: activitySelection
                     )
                     coordinator.saveSetup(config: config)
                     coordinator.startSession()
@@ -34,12 +35,22 @@ struct SessionSetupView: View {
             }
         }
         .navigationTitle("Session Setup")
+        .onAppear {
+            durationMinutes = coordinator.currentConfig.durationMinutes
+            activitySelection = coordinator.currentConfig.activitySelection
+        }
+        .familyActivityPicker(isPresented: $isShowingActivityPicker, selection: $activitySelection)
     }
 
-    private func splitCSV(_ value: String) -> [String] {
-        value
-            .split(separator: ",")
-            .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
-            .filter { !$0.isEmpty }
+    private var summaryText: String {
+        let appCount = activitySelection.applicationTokens.count
+        let categoryCount = activitySelection.categoryTokens.count
+        let webCount = activitySelection.webDomainTokens.count
+
+        if appCount == 0, categoryCount == 0, webCount == 0 {
+            return "No apps or categories selected yet"
+        }
+
+        return "\(appCount) apps, \(categoryCount) categories, \(webCount) websites selected"
     }
 }

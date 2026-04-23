@@ -1,29 +1,43 @@
-# QA Report - Focus Lock MVP Scaffold
+# QA Report - Focus Lock Production Integrations
 
 Date: 2026-04-23 (UTC)
-Issue: [JON-6](/JON/issues/JON-6)
+Issue: [JON-7](/JON/issues/JON-7)
 
-## Build Signal
+## Current Status
 
-- Workflow: `Build and Test`
-- Run: https://github.com/12jonas12367-oss/brief-ios-focus-lock-lifetime-apr-2026/actions/runs/24847199266
-- Result: PASS
+- Production integration code has been implemented for Screen Time (`FamilyControls` + `ManagedSettings`) and StoreKit 2 (`Product.purchase`, entitlements restore).
+- Session setup now uses `FamilyActivityPicker` and passes real token selections into blocking service.
+- Paywall now displays localized StoreKit product price for `focus_lock_lifetime_unlock`.
+- Legacy mock CSV blocking fields were removed from `SessionConfig` to prevent drift from Screen Time token-based blocking.
+- CI workflow has been hardened to run on both `main` and `master` with explicit Xcode selection.
+- Deployment target was aligned to iOS 18.5 to match current CI simulator SDK availability.
+- Added `FocusLockTests` unit-test target and wired CI to run `build test`.
 
-## Checks Performed
+## Verification Gaps
 
-- CI macOS build executes end-to-end using XcodeGen + `xcodebuild`.
-- Core navigation flow exists in code: Home -> Session Setup -> Active Session.
-- Lifetime paywall flow exists in code with one clear CTA and restore button.
-- Service boundaries for Screen Time and StoreKit are present and injectable.
+- CI validation was not re-run in this environment after the integration patch and workflow update.
+- Runtime validation on a signed build/device is still required for:
+  - Family Controls authorization flow
+  - Shield application/clearing behavior
+  - Purchase and restore flows against App Store Connect product
 
-## Findings
+## Heartbeat Validation Attempt (2026-04-23 UTC)
 
-- Blocking and purchase services are mocked; production FamilyControls/ManagedSettings and StoreKit 2 are TODO.
-- No simulator screenshot artifact pipeline is implemented yet.
-- Xcode emits deployment-target warning in CI (target 18.6, simulator SDK 18.5); build still passes.
+- Command run: `./scripts/capture_validation_evidence.sh`
+- Result: failed immediately with `Missing required tools: xcodegen xcodebuild`.
+- Evidence artifact: `dat/evidence/20260423T171532Z/summary.md`.
+- Interpretation: evidence capture script is wired correctly, but this runtime cannot execute iOS CI prerequisites.
 
-## Recommendation
+## Developer Handoff Status
 
-- Go for next implementation milestone.
-- Not ready for App Store submission.
-- Next engineering task: replace mocks with real Screen Time + StoreKit 2 integration, then re-run QA with screenshot capture.
+- `[DEV] Ready for QA` from implementation perspective.
+- Production wiring is complete in code; remaining work is execution of CI/device validation artifacts in Apple-capable infrastructure.
+- Acceptance evidence and unblock details are maintained in `dat/JON-7_ACCEPTANCE.md` and `dat/VALIDATION_HANDOFF.md`.
+
+## Next QA Action
+
+- Generate project, run iOS build/test, and capture signed-device screenshots for session blocking + purchase/restore paths.
+- Follow the step-by-step handoff checklist in `dat/VALIDATION_HANDOFF.md`.
+- Record outputs in `dat/JON-10_VALIDATION_EVIDENCE_TEMPLATE.md`.
+- Track current unblock owner/action in `dat/BLOCKERS.md`.
+- Use `dat/JON-7_ACCEPTANCE.md` as the acceptance evidence checklist.

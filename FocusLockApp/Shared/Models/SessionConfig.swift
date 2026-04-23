@@ -1,13 +1,12 @@
+import FamilyControls
 import Foundation
 
-struct SessionConfig: Equatable {
+struct SessionConfig {
     var durationMinutes: Int
-    var blockedApps: [String]
-    var blockedCategories: [String]
+    var activitySelection: FamilyActivitySelection
 
     static let `default` = SessionConfig(
         durationMinutes: 25,
-        blockedApps: ["Instagram", "YouTube"],
-        blockedCategories: ["Social", "Games"]
+        activitySelection: FamilyActivitySelection()
     )
 }
