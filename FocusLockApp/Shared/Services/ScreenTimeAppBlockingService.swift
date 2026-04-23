@@ -4,14 +4,9 @@ import ManagedSettings
 
 @MainActor
 final class ScreenTimeAppBlockingService: AppBlockingService {
-    private let authorizationCenter: AuthorizationCenter
     private let settingsStore: ManagedSettingsStore
 
-    init(
-        authorizationCenter: AuthorizationCenter = .shared,
-        settingsStore: ManagedSettingsStore = ManagedSettingsStore()
-    ) {
-        self.authorizationCenter = authorizationCenter
+    init(settingsStore: ManagedSettingsStore = ManagedSettingsStore()) {
         self.settingsStore = settingsStore
     }
 
@@ -19,7 +14,7 @@ final class ScreenTimeAppBlockingService: AppBlockingService {
 
     func requestAuthorization() async -> Bool {
         do {
-            try await authorizationCenter.requestAuthorization(for: .individual)
+            try await AuthorizationCenter.shared.requestAuthorization(for: .individual)
             return true
         } catch {
             return false
