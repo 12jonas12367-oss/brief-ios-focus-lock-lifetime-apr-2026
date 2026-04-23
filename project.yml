@@ -36,3 +36,4 @@ targets:
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: WhitoutCookies.FocusLockTests
+        GENERATE_INFOPLIST_FILE: YES
